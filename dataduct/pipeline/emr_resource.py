@@ -22,6 +22,7 @@ PIG_VERSION = config.emr.get('PIG_VERSION', const.NONE)
 CLUSTER_AMI = config.emr.get('CLUSTER_AMI', '2.4.7')
 DEFAULT_BOOTSTRAP = config.emr.get('DEFAULT_BOOTSTRAP', [])
 KEY_PAIR = config.etl.get('KEY_PAIR', const.NONE)
+SUBNET_ID = config.emr.get('SUBNET_ID', config.etl.get('SUBNET_ID'))
 
 import logging
 logger = logging.getLogger(__name__)
@@ -46,7 +47,9 @@ class EmrResource(PipelineObject):
                  hadoop_version=HADOOP_VERSION,
                  install_hive=HIVE_VERSION,
                  install_pig=PIG_VERSION,
-                 ami_version=CLUSTER_AMI):
+                 ami_version=CLUSTER_AMI,
+                 subnet_id=SUBNET_ID,
+                 ):
         """Constructor for the Ec2Resource class
 
         Args:
@@ -98,6 +101,7 @@ class EmrResource(PipelineObject):
             pigVersion=install_pig,
             amiVersion=ami_version,
             hadoopVersion=hadoop_version,
+            subnetId=subnet_id,
         )
 
         if num_task_instances:
